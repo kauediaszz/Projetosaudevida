@@ -4,6 +4,7 @@ async function sha256Hex(text) {
   const buf = await crypto.subtle.digest("SHA-256", enc.encode(text));
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
+
 function toast(el, msg, tipo = "error", ms = 2000) {
   if (!el) return;
   el.textContent = msg;
@@ -41,7 +42,7 @@ const btnEntrar = document.getElementById("enviar");
 const inputUser = document.getElementById("usuario");
 const inputPass = document.getElementById("senha");
 
-// ========== Fun��o de login ==========
+// ========== Função de login ==========
 async function fazerLogin() {
   const loginDigitado = (inputUser?.value || "").trim();
   const senhaDigitada = (inputPass?.value || "").trim();
@@ -108,7 +109,7 @@ async function fazerLogin() {
 }
 
 // ========== Eventos de login ==========
-// Bot�o de login
+// Botão de login
 btnEntrar?.addEventListener("click", async (e) => {
   e.preventDefault();
   await fazerLogin();

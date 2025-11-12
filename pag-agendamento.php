@@ -1,20 +1,21 @@
+<?php
+session_start();
+
+// 🔒 BLOQUEIO: só permite abrir se estiver logado
+if (!isset($_SESSION["usuario_login"])) {
+  header("Location: pag-login.php?returnUrl=pag-agendamento.php");
+  exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="shortcut icon" href="img/favicon-16x16.png" type="image/x-icon" />
-
   <link rel="stylesheet" href="css/style-cadastro.css" />
   <title>Saúde & Vida</title>
-
-  <!-- Bloqueio: só permite abrir se estiver logado -->
-  <script>
-    const u = JSON.parse(localStorage.getItem('usuarioLogado') || 'null');
-    if (!u || !u.nomeCompleto) {
-      location.href = `pag-login.php?returnUrl=${encodeURIComponent('pag-agendamento.php')}`;
-    }
-  </script>
 </head>
 
 <body>
@@ -26,12 +27,15 @@
       <h1>Agendamento de Consulta</h1>
 
       <div class="form-container">
-        <form id="form-agendamento">
+        <form id="form-agendamento" method="POST" action="processa-agendamento.php">
           <div class="textfield">
 
             <div class="field full">
               <label for="nome-completo">Nome Completo:</label>
-              <input type="text" id="nome-completo" name="nome-completo" placeholder="Ex: Fernanda Lima Cardoso" required />
+              <input type="text" id="nome-completo" name="nome-completo"
+                     placeholder="Ex: Fernanda Lima Cardoso"
+                     value="<?= htmlspecialchars($_SESSION['usuario_nome']) ?>"
+                     required />
             </div>
 
             <div class="field full">
@@ -97,7 +101,6 @@
     </div>
   </div>
 
-  
   <script src="js/script-agendamento.js"></script>
 </body>
 </html>
